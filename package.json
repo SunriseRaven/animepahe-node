@@ -13,8 +13,7 @@
     "axios-cookiejar-support": "^4.0.7",
     "cheerio": "^1.0.0",
     "express": "^4.19.2",
-    "tough-cookie": "^4.1.4",
-    "unpacker": "^0.1.0"
+    "tough-cookie": "^4.1.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"
