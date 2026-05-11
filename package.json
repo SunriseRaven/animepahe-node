@@ -1,0 +1,22 @@
+{
+  "name": "animepahe-node-api",
+  "version": "1.0.0",
+  "description": "Unofficial AnimePahe REST API wrapper built with Node.js + Express",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "keyman": "node keyman.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "axios-cookiejar-support": "^4.0.7",
+    "cheerio": "^1.0.0",
+    "express": "^4.19.2",
+    "tough-cookie": "^4.1.4",
+    "unpacker": "^0.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
