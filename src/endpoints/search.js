@@ -14,8 +14,11 @@ async function search(req, res) {
   try {
     const response = await api(`/api?m=search&q=${encodeURIComponent(q)}`);
 
+    console.log('[search] status:', response.status);
+    console.log('[search] data:', JSON.stringify(response.data).slice(0, 500));
+
     if (!response.data || !response.data.data) {
-      return serverError(res, 'Unexpected response from AnimePahe.');
+      return serverError(res, 'Unexpected response: ' + JSON.stringify(response.data).slice(0, 200));
     }
 
     const results = response.data.data.map(item => ({
@@ -38,20 +41,3 @@ async function search(req, res) {
 }
 
 module.exports = { search };
-
-async function search(req, res) {
-  const q = (req.query.q || '').trim();
-
-  if (!q) return error(res, 'Missing required parameter: q');
-
-  try {
-    const response = await api(`/api?m=search&q=${encodeURIComponent(q)}`);
-
-    // Add this temporarily to see what AnimePahe actually returns
-    console.log('[search] status:', response.status);
-    console.log('[search] data:', JSON.stringify(response.data).slice(0, 500));
-
-    if (!response.data || !response.data.data) {
-      return serverError(res, `Unexpected response: ${JSON.stringify(response.data).slice(0, 200)}`);
-    }
-    // ... rest unchanged
