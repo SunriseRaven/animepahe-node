@@ -12,7 +12,7 @@ async function search(req, res) {
   if (!q) return error(res, 'Missing required parameter: q');
 
   try {
-    const response = await api(`/api?m=search&q=${encodeURIComponent(q)}`);
+   const response = await api(`/api?m=search&q=${encodeURIComponent(q)}&l=8`);
 
     console.log('[search] status:', response.status);
     console.log('[search] data:', JSON.stringify(response.data).slice(0, 500));
@@ -21,17 +21,17 @@ async function search(req, res) {
       return serverError(res, 'Unexpected response: ' + JSON.stringify(response.data).slice(0, 200));
     }
 
-    const results = response.data.data.map(item => ({
-      id:      item.id      ?? null,
-      title:   item.title   ?? null,
-      type:    item.type    ?? null,
-      year:    item.year    ?? null,
-      status:  item.status  ?? null,
-      season:  item.season  ?? null,
-      score:   item.score   ?? null,
-      poster:  item.poster  ?? null,
-      session: item.session ?? null,
-    }));
+   const results = response.data.data.map(item => ({
+  id:      item.id       ?? null,
+  title:   item.title    ?? null,
+  type:    item.type     ?? null,
+  year:    item.year     ?? null,
+  status:  item.status   ?? null,
+  season:  item.season   ?? null,
+  score:   item.score    ?? null,
+  poster:  item.poster   ?? null,
+  session: item.session  ?? item.id ?? null,  // fallback to id if session missing
+}));
 
     return success(res, { total: results.length, results });
   } catch (err) {
