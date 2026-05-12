@@ -21,17 +21,20 @@ async function play(req, res) {
   }
 
   try {
-    // Step 1: Get Kwik links from AnimePahe
-    const linksRes = await api(
-      `/api?m=links&id=${encodeURIComponent(animeSession)}&session=${encodeURIComponent(episodeSession)}&p=kwik`
-    );
+    
+  // Step 1: Get Kwik links from AnimePahe
+const linkPath = `/api?m=links&id=${encodeURIComponent(animeSession)}&session=${encodeURIComponent(episodeSession)}&p=kwik`;
+console.log('[play] calling:', linkPath);
+const linksRes = await api(linkPath);
 
-   const linksJson = linksRes.data;
+const linksJson = linksRes.data;
 console.log('[play] links raw:', JSON.stringify(linksJson).slice(0, 500));
+
 if (!linksJson || !linksJson.data || !linksJson.data.length) {
-  return res.status(502).json({ 
+  return res.status(502).json({
     error: 'No sources returned from AnimePahe.',
-    raw: JSON.stringify(linksJson).slice(0, 300)
+    raw: JSON.stringify(linksJson).slice(0, 300),
+    path: linkPath,
   });
 }
 
