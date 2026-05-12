@@ -44,9 +44,13 @@ async function solveBypass() {
     const context = await browser.newContext({ userAgent: USER_AGENT });
     const page    = await context.newPage();
 
-    await page.goto(BASE_URL, { waitUntil: 'networkidle', timeout: 60000 });
-    await page.waitForTimeout(3000);
+    // Visit homepage first
+await page.goto(BASE_URL, { waitUntil: 'networkidle', timeout: 60000 });
+await page.waitForTimeout(2000);
 
+// Then hit the API endpoint to get API-specific cookies
+await page.goto(`${BASE_URL}/api?m=airing&page=1`, { waitUntil: 'networkidle', timeout: 30000 });
+await page.waitForTimeout(2000);
     const cookies = await context.cookies(BASE_URL);
     await browser.close();
 
@@ -63,10 +67,13 @@ async function solveBypass() {
     }
 
     bypassReady = true;
+    setTimeout(() => { bypassReady = false; }, 20 * 60 * 1000);
     console.log(`[bypass] Done — harvested ${cookies.length} cookies.`);
   } catch (err) {
     console.error('[bypass] Playwright failed:', err.message);
     bypassReady = true;
+    // Refresh bypass every 20 minutes
+setTimeout(() => { bypassReady = false; }, 20 * 60 * 1000);
   }
 }
 
