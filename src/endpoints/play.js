@@ -26,10 +26,14 @@ async function play(req, res) {
       `/api?m=links&id=${encodeURIComponent(animeSession)}&session=${encodeURIComponent(episodeSession)}&p=kwik`
     );
 
-    const linksJson = linksRes.data;
-    if (!linksJson || !linksJson.data || !linksJson.data.length) {
-      return res.status(502).json({ error: 'No sources returned from AnimePahe.' });
-    }
+   const linksJson = linksRes.data;
+console.log('[play] links raw:', JSON.stringify(linksJson).slice(0, 500));
+if (!linksJson || !linksJson.data || !linksJson.data.length) {
+  return res.status(502).json({ 
+    error: 'No sources returned from AnimePahe.',
+    raw: JSON.stringify(linksJson).slice(0, 300)
+  });
+}
 
     // Step 2: Resolve each Kwik link to a direct .m3u8 concurrently
     const resolveResults = await Promise.allSettled(
